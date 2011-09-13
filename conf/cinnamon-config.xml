@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cinnamon-config 
+    xmlns="http://www.spicefactory.org/cinnamon"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.spicefactory.org/cinnamon
+	    http://www.spicefactory.org/cinnamon/schema/0.3/cinnamon-config.xsd">
+
+<!-- Annotation don't work here, I don't know why -->
+<service
+   factory-ref="factory"
+   name="postService"
+   service-interface="service.IPostService"
+   service-implementation="service.PostService"
+   scope="session"
+   process-annotations="true"
+>
+	<operation name="addComment" param-types="java.lang.Long,java.lang.String,java.lang.String"/>
+</service>
+
+
+<factory name="factory" type="org.spicefactory.cinnamon.service.factory.PlainJavaServiceFactory"></factory>
+<!-- Optional if you need security for your service methods -->
+<!-- <service-interceptor type="service.SecurityInterceptor"  /> -->
+
+<!-- Note the ommitted properties, if want to serialize playframework model 
+classes to amf, some interited properties need to get skipped by the
+serializer. Also note that amf doesn't support constructor arguments -->
+<!--<bean-mapping 
+   alias="models::Entry" 
+   java-class="models.Entry"		
+   omit-properties="persistent,entityId" />-->
+</cinnamon-config>

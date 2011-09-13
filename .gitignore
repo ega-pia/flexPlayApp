@@ -1,0 +1,12 @@
+/tmp
+/modules
+/lib
+/test-result
+/logs
+/eclipse
+
+/flex/bin-debug
+/flex/html-template
+/flex/.actionScriptProperties
+/flex/.flexProperties
+/flex/.project

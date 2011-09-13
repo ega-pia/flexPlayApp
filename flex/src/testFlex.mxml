@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+               xmlns:s="library://ns.adobe.com/flex/spark"
+               xmlns:mx="library://ns.adobe.com/flex/mx" minWidth="955"
+               minHeight="600" xmlns:local="*"
+               creationComplete="onCreationComplete(event)"
+               xmlns:ns="http://code.google.com/p/flex-iframe/">
+
+  <fx:Script>
+    <![CDATA[
+      import mx.events.FlexEvent;
+      import mx.messaging.ChannelSet;
+      import mx.messaging.channels.AMFChannel;
+      
+      import org.spicefactory.cinnamon.service.NetConnectionServiceChannel;
+      import org.spicefactory.cinnamon.service.ServiceChannel;
+      import org.spicefactory.lib.logging.Logger;
+      
+      private var channel:ServiceChannel;
+      private var logger:Logger;
+      private var postService:PostService;
+      
+      protected function onCreationComplete(event:FlexEvent):void
+      {
+        // TODO Auto-generated method stub
+        //http://localhost:9000/amf
+        
+        
+        
+        var url:String = 'http://localhost:9000/amf';
+        
+        /* var channelSet:ChannelSet = new ChannelSet();
+        
+        channelSet.addChannel(new AMFChannel('my-polling-amf', 'http://localhost:9000/amf'));
+        
+        postService.channelSet = channelSet; */
+        
+        
+        channel = new NetConnectionServiceChannel();
+        channel.serviceUrl = url;
+        channel.timeout = 5000;
+        
+        postService = new PostServiceImpl();
+        channel.createProxy("postService", postService);
+        
+        channel.connect();
+      }
+      
+      protected function sendComment(event:MouseEvent):void
+      {
+        postService.addComment(1, author.text, content.text);
+      }
+    ]]>
+  </fx:Script>
+
+  <fx:Declarations>
+    <!-- Placer ici les éléments non visuels (services et objets de valeur, par exemple). -->
+
+  </fx:Declarations>
+
+  <s:layout>
+    <s:VerticalLayout/>
+  </s:layout>
+
+  <s:TextInput id="author"/>
+  <s:TextArea id="content"/>
+  <s:Button label="send" click="sendComment(event)"/>
+
+
+</s:Application>
